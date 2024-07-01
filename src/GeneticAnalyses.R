@@ -1,14 +1,17 @@
 ## GTSeq ####
 
+library(tidyverse)
+library(adegenet)
+
 # A. Uploading the csv file
-gtseq <- read.csv("../../Data/Genetic/GTSeq 2024 UofI YCT Genotypes Table 20240531.xlsx - GY2024 UofI YCT Trays.csv",
+gtseq <- read.csv("./data_raw/GTSeq 2024 UofI YCT Genotypes Table 20240531.csv",
                   header = T) ## 718 cols - 10 of metadata= 708/2 = 840 SNPs?
 
 # B. Converting to a "genetic" object
 
-library(adegenet)
 
 ## df2genind needs a sep argument, and I couldn't find which represents that data are in diff columns (not sure if it even exists). Besides that I get some errors about allele dosage (don't know what is that) and about detecting more than one . in the column names (it says that columns must be named as locus.allele, and the data is exactly like that, so I don't understand why it doesn't work)
+#ts locus name has a"." in the middle, need to get rid of it.
 gtseq.genind <- df2genind(gtseq[ ,-c(1:10)], sep= "") 
 
 ## Trying if only by keeping the SNPs (not mt- or "multi-nucleotide" polymorphisms) it works
